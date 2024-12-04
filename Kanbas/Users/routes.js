@@ -115,22 +115,20 @@ const signin = async (req, res) => {
     res.json(newCourse);
   };
   const findCoursesForUser = async (req, res) => {
-    // const currentUser = req.session["currentUser"];
-    // if (!currentUser) {
-    //   res.sendStatus(401);
-    //   return;
-    // }
-    // if (currentUser.role === "ADMIN") {
-    //   const courses = await courseDao.findAllCourses();
-    //   // res.json(courses);
-    //   res.json("Inside Admin");
-    //   res.sendStatus(404);
-    //   return;
-    // }
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
+    }
+    if (currentUser.role === "ADMIN") {
+      const courses = await courseDao.findAllCourses();
+      res.json(courses);
+      return;
+    }
     let { userId } = req.params;
-    // if (uid === "current") {
-    //   uid = currentUser._id;
-    // }
+    if (userId === "current") {
+      userId = currentUser._id;
+    }
     const courses = await enrollmentsDao.findCoursesForUser(userId);
     res.json(courses);
   }; 
