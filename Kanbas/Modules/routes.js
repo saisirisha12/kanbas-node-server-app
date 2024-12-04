@@ -6,9 +6,9 @@ app.put("/api/modules/:moduleId", async (req, res) => {
     const status = await modulesDao.updateModule(moduleId, moduleUpdates);
     res.send(status);
     }); 
- app.delete("/api/modules/:moduleId", (req, res) => {
+ app.delete("/api/modules/:moduleId", async (req, res) => {
    const { moduleId } = req.params;
-   modulesDao.deleteModule(moduleId);
+   await modulesDao.deleteModule(moduleId);
    res.sendStatus(204);
 
  });
